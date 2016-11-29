@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">	
+	
+	
+<ui:composition template="../template/templateBustaPaga.xhtml">
+	<ui:define name="bustaPagaEmissione">
+		<h2>Qua creo le buste paga</h2>
+		
+	<h:form>
+		
+		<p:panel header="EMETTI UNA NUOVA BUSTA PAGA" styleClass="text">
+			<p:messages autoUpdate="true"/>
+	    	<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
+
+					<h:outputLabel for="dipendente" value="Seleziona il dipendente"
+						style="font-weight:bold" styleClass="text" />					
+					
+					<h:selectOneMenu value="#{controllerBustaPaga.sceltaId}"
+					styleClass="input-text">
+					<f:selectItems value="#{dipEditView.listaDipendenti}" itemLabel="#{d.nome} #{d.cognome}" itemValue="#{controllerBustaPaga.sceltaId}" var="d" required="true"></f:selectItems>
+					</h:selectOneMenu>
+					
+					
+					<h:outputLabel for="importo" value="Seleziona l'importo"
+						style="font-weight:bold" styleClass="text" />
+					<p:inputText id="importo" value="#{bustapaga.importo}"
+						label="Importo" required="true"
+						requiredMessage="Inserisci l'importo!" />
+					
+					<h:outputLabel for="data" value="Seleziona la data di emissione" style="font-weight:bold" />
+					<p:calendar id="data" value="#{bustapaga.data}" required="true" requiredMessage="Inserisci la data!" />
+
+				</h:panelGrid>
+				
+				<p:commandButton value="Emetti busta paga" icon="ui-icon-check" validateClient="true" style="margin-right:10px" action="#{controllerBustaPaga.addBustaPaga(bustapaga)}" styleClass="text"/>               
+				
+		</p:panel>
+	</h:form>	
+	
+	
+	
+	<p:panel>
+		
+		<h:outputText></h:outputText>
+	
+	</p:panel>
+	
+	
+	        
+	 
+
+
+ 
+	</ui:define>
+</ui:composition>
+</html>

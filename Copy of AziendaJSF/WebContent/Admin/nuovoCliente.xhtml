@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../template/templateNuovoCliente.xhtml">
+
+	<ui:define name="nuovoClienteContenuto">
+		<h2>Qua aggiungi un nuovo cliente</h2>
+	
+	<h:form> 
+	    <p:panel header="AGGIUNGI UN NUOVO CLIENTE" styleClass="text">
+	        <p:messages autoUpdate="true"/>
+	 
+	        <h:panelGrid id="grid" columns="4" cellpadding="5">
+	            <h:outputLabel for="nome" value="Nome" style="font-weight:bold" styleClass="text"/>                    
+	            <p:inputText id="nome" value="#{cliente.nome}" required="true" label="Name" requiredMessage="Inserisci il nome!"/><br/>
+	            <p:message for="nome" />
+	 
+	            <h:outputLabel for="cognome" value="Cognome:" style="font-weight:bold" styleClass="text"/>                    
+	            <p:inputText id="cognome" value="#{cliente.cognome}" label="Cognome" required="true" requiredMessage="Inserisci il cognome!"/><br/>
+	            <p:message for="cognome" />       
+	            
+	            <h:outputLabel for="ragioneSociale" value="Ragione Sociale:" style="font-weight:bold" styleClass="text"/>                    
+	            <p:inputText id="ragioneSociale" value="#{cliente.ragioneSociale}" label="Ragione Sociale" required="true" requiredMessage="Inserisci la ragione sociale!"/><br/>
+	            <p:message for="ragioneSociale" />       
+	            
+	            <h:outputLabel for="partitaIVA" value="Partita IVA:" style="font-weight:bold" styleClass="text"/>                    
+	            <p:inputText id="partitaIVA" value="#{cliente.partitaIVA}" label="Partita IVA" required="true" requiredMessage="Inserisci la partita IVA!"/><br/>
+	            <p:message for="partitaIVA" />       
+	            
+	            <h:outputLabel for="username" value="Username:" style="font-weight:bold" styleClass="text"/>                    
+	            <p:inputText id="username" value="#{cliente.username}" label="Username" required="true" requiredMessage="Inserisci lo username!"/><br/>
+	            <p:message for="username" />    
+	            
+	            <h:outputLabel for="password" value="Password:" style="font-weight:bold" styleClass="text"/>                    
+	            <p:password id="password" value="#{cliente.password}" label="Password" required="true" requiredMessage="Inserisci la password!"/><br/>
+	            <p:message for="password" />       
+	        </h:panelGrid><br/>
+	 
+	        <p:commandButton value="Aggiungi" icon="ui-icon-check" validateClient="true" style="margin-right:10px" action="#{controllerCliente.addCliente(cliente)}" styleClass="text"/>        
+	    </p:panel>
+	</h:form>
+	
+	<br/>
+	
+	<h:form>
+		<p:commandButton value="Annulla" icon="ui-icon-check" style="margin-left:22px" action="#{controllerDipendente.annulla()}" styleClass="text"/>
+	</h:form>		
+	
+		
+	</ui:define>
+	
+</ui:composition>
+</html>
