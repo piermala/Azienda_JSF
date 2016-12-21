@@ -2,6 +2,7 @@ package it.alfasoft.pierangelo.dao;
 
 import it.alfasoft.pierangelo.model.bean.Dipendente;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class DipendenteDao {
+public class DipendenteDao implements Serializable {
 	
+
+	private static final long serialVersionUID = 1L;
+
+
 
 	/// AGGIUNGI
 	public Dipendente createDipendente(String nome, String cognome, String username, String password, String posizione, double stipendio){

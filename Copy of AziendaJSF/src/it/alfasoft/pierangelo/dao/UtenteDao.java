@@ -39,7 +39,7 @@ public class UtenteDao {
 	
 	
 	/// CERCA CON ID
-	public Utente trovaUtenteConId(long id) {
+	public Utente trovaUtenteConId(long idUtente) {
 		
 		Utente u = null;
 		
@@ -50,10 +50,12 @@ public class UtenteDao {
 			tx=session.getTransaction();
 			tx.begin();
 		
-			Query query=session.createQuery("from Utente where idUtente=:id");
-			query.setLong("id", id);
+//			Query query=session.createQuery("from Utente where idUtente=:id");
+//			query.setLong("id", id);
+//			
+//			u =(Utente)query.uniqueResult();
 			
-			u =(Utente)query.uniqueResult();
+			u = session.get(Utente.class, idUtente);
 			
 			tx.commit();
 			

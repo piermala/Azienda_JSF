@@ -6,12 +6,14 @@ import it.alfasoft.pierangelo.model.bean.Dipendente;
 import it.alfasoft.pierangelo.servizi.ServiziDipendente;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
@@ -81,7 +83,7 @@ public class EditViewDipendente implements Serializable {
     }
      
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Dipendente eliminato", ((Dipendente) event.getObject()).getUsername());
+        FacesMessage msg = new FacesMessage("Modifica annullata", ((Dipendente) event.getObject()).getUsername());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
@@ -98,8 +100,9 @@ public class EditViewDipendente implements Serializable {
     
     public String delete(Dipendente dipendente){
     	controller.deleteDipendente(dipendente);
-    	return "HomepageAdmin";
+    	return "elencoDipendenti?faces-redirect=true";
     }
+    
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -115,11 +118,6 @@ public class EditViewDipendente implements Serializable {
 		
 		return value;
 	}
-	
-	
-	
-	
-	
 	
 	
 }

@@ -1,11 +1,12 @@
 package it.alfasoft.pierangelo.controller;
 
 import it.alfasoft.pierangelo.model.bean.Cliente;
+import it.alfasoft.pierangelo.model.bean.Utente;
 import it.alfasoft.pierangelo.servizi.ServiziCliente;
 import it.alfasoft.pierangelo.servizi.ServiziRubrica;
+import it.alfasoft.pierangelo.servizi.ServiziUtente;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import utility.CodificaPassword;
 
 
 
@@ -27,6 +30,7 @@ public class ClienteController implements Serializable {
 	private List<Cliente> listaClienti;
 	private ServiziCliente servCliente;
 	private ServiziRubrica servRubrica;
+	private ServiziUtente servUtente;
 	
 	
 	//// GETTERS AND SETTERS
@@ -61,15 +65,25 @@ public class ClienteController implements Serializable {
 	
 	
 
+	public ServiziUtente getServUtente() {
+		return servUtente;
+	}
+
+	public void setServUtente(ServiziUtente servUtente) {
+		this.servUtente = servUtente;
+	}
+
 	//// COSTRUTTORI
 	public ClienteController(){
-		init();
+		
 	}
 
 	
 	@PostConstruct
     public void init() {
 		servCliente = new ServiziCliente();	
+		servUtente = new ServiziUtente();
+		servRubrica = new ServiziRubrica();
 		listaClienti = servCliente.getTuttiClienti();
 	}
 	
@@ -78,9 +92,18 @@ public class ClienteController implements Serializable {
 	
 	/// AGGIUNGI CLIENTE
 	public String addCliente(Cliente cliente){		
+		
+		cliente.setPassword(CodificaPassword.codificaPsw(cliente.getPassword()));
 			
 		servCliente.createCliente(cliente.getNome(), cliente.getCognome(), cliente.getUsername(), cliente.getPassword(), cliente.getpartitaIVA(), cliente.getRagioneSociale());	/// aggiungi nel database
 		servRubrica.aggiungiRubrica(cliente.getUsername());
+		
+		Utente u = servUtente.cercaConUsername(cliente.getUsername());
+		
+		if (u == null){
+			servRubrica.aggiungiRubrica(cliente.getUsername());
+		}		
+		
 		aggiornaClienti();
 		return "elencoClienti?faces-redirect=true";
 		
@@ -106,7 +129,7 @@ public class ClienteController implements Serializable {
 		servCliente.eliminaCliente(cliente);
 		aggiornaClienti();
 
-		return "HomepageAdmin?faces-redirect=true";
+		return "elencoClienti?faces-redirect=true";
 
 	}
 	

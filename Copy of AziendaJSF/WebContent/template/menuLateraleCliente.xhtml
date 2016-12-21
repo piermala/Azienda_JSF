@@ -20,10 +20,12 @@
 			
 			<p:submenu label="Rubrica">
 			
-			<p:menuitem value="Nuova voce" outcome="AggiungiVoce" icon="ui-icon-arrowrefresh-1-w" />
-			<p:menuitem value="Elenco voci" outcome="ElencoVoci" icon="ui-icon-disk" ></p:menuitem>
+				<p:menuitem value="Nuova voce" outcome="AggiungiVoce" icon="ui-icon-arrowrefresh-1-w" />
+				<p:menuitem value="Elenco voci" outcome="ElencoVoci" icon="ui-icon-disk" ></p:menuitem>
 				
 			</p:submenu>
+			
+			<p:menuitem value="Log Out" icon="fa fa-fw fa-sign-out" action="#{loginController.logout()}" ajax="false" />	
 			
 		</p:menu>
 

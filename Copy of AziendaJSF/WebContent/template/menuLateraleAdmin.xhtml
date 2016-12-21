@@ -29,7 +29,9 @@
 				<p:menuitem value="Elenco dipendenti" outcome="elencoDipendenti" icon="ui-icon-disk"/>				
 				<p:menuitem value="Emissione busta paga" outcome="emissioneBustaPaga" icon="ui-icon-disk"/>
 				<p:menuitem value="Elenco buste paga" outcome="elencoBustePaga" icon="ui-icon-disk"/>
-			</p:submenu>			
+			</p:submenu>	
+			
+			<p:menuitem value="Log Out" icon="fa fa-fw fa-sign-out" action="#{loginController.logout()}" ajax="false" />		
 			
 		</p:menu>
 

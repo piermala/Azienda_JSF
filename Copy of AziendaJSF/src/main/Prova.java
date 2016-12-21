@@ -21,9 +21,8 @@ public class Prova {
 	
 	public static void main(String[] args) {
 		
-		sceltaId = 13;
 		
-		dipendente = (Dipendente) servUtente.cercaUtenteConId(sceltaId);
+		dipendente = (Dipendente) servUtente.cercaUtenteConId(67);
 		
 		System.out.println(dipendente.getNome() + " " + dipendente.getCognome());
 		

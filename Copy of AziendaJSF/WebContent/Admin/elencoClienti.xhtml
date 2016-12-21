@@ -9,10 +9,6 @@
 
 <ui:composition template="../template/templateElencoClienti.xhtml">	
 	<ui:define name="elencoClientiContenuto">
-	
-		
-		<h2>Qua vedremo l'elenco clienti</h2>
-
 
 		<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
@@ -23,6 +19,7 @@
 
 				<p:ajax event="rowEdit" listener="#{clEditView.onRowEdit}" update=":form:msgs" />
 				<p:ajax event="rowEditCancel" listener="#{clEditView.onRowCancel}" update=":form:msgs" />
+				<p:ajax event="rowEditCancel" listener="#{clEditView.onRowDelete}" update=":form:msgs" />
 					
 					
 				<p:column headerText="Nome">

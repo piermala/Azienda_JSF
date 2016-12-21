@@ -4,16 +4,17 @@ import it.alfasoft.pierangelo.model.bean.BustaPaga;
 import it.alfasoft.pierangelo.model.bean.Dipendente;
 import it.alfasoft.pierangelo.servizi.ServiziBustaPaga;
 import it.alfasoft.pierangelo.servizi.ServiziDipendente;
-import it.alfasoft.pierangelo.servizi.ServiziUtente;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -21,18 +22,22 @@ import javax.faces.context.FacesContext;
 
 
 @ManagedBean(name="controllerBustaPaga",eager=true)
-@SessionScoped
+@RequestScoped
 public class BustaPagaController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private List<BustaPaga> listaBustePaga;
+	private List<Dipendente> listaDipendenti;
 	private ServiziBustaPaga servBustaPaga;
 	private ServiziDipendente servDipendente;
-	private ServiziUtente servUtente;
-	private BustaPaga bustaPaga;
-	private long sceltaId;
 	
+	private BustaPaga bustaPaga;
+	private Dipendente dipendente;
+	private long sceltaId;
+	private String sceltaUsername;
+	
+	private Map<String,Long> dipendenti;
 	
 	//// GETTERS AND SETTER	
 	
@@ -76,15 +81,24 @@ public class BustaPagaController implements Serializable {
 		this.bustaPaga = bustaPaga;
 	}
 
-//
-//	public Dipendente getDipendente() {
-//		return dipendente;
-//	}
-//
-//
-//	public void setDipendente(Dipendente dipendente) {
-//		this.dipendente = dipendente;
-//	}
+	public Dipendente getDipendente() {
+		return dipendente;
+	}
+
+
+	public void setDipendente(Dipendente dipendente) {
+		this.dipendente = dipendente;
+	}
+
+
+	public List<Dipendente> getListaDipendenti() {
+		return listaDipendenti;
+	}
+
+
+	public void setListaDipendenti(List<Dipendente> listaDipendenti) {
+		this.listaDipendenti = listaDipendenti;
+	}
 
 
 	public static long getSerialversionuid() {
@@ -102,28 +116,54 @@ public class BustaPagaController implements Serializable {
 	}
 
 
+	public String getSceltaUsername() {
+		return sceltaUsername;
+	}
+
+
+	public void setSceltaUsername(String sceltaUsername) {
+		this.sceltaUsername = sceltaUsername;
+	}
+
+
+	public Map<String,Long> getDipendenti() {
+		return dipendenti;
+	}
+
+
+	public void setDipendenti(Map<String,Long> dipendenti) {
+		this.dipendenti = dipendenti;
+	}
+
+
 	//// COSTRUTTORI
 	public BustaPagaController(){
-		init();
+		
 	}
 
 	
 	@PostConstruct
     public void init() {
+		dipendente = new Dipendente();
 		listaBustePaga = new ArrayList<BustaPaga>();
 		servBustaPaga = new ServiziBustaPaga();	
 		servDipendente = new ServiziDipendente();
+		
+		dipendenti = new HashMap<String, Long>();
+		for(Dipendente d : servDipendente.getTuttiDipendenti()){
+			dipendenti.put(d.getCognome()+" "+d.getNome(), d.getIdUtente());
+		}
 	}
 	
 	
 	
 	
 	/// AGGIUNGI BUSTA PAGA
-	public String addBustaPaga(BustaPaga bustaPaga){	
-		
-		Dipendente dipendente = (Dipendente) servUtente.cercaUtenteConId(5);
+	public String addBustaPaga(BustaPaga bustaPaga){
+				
+		Dipendente dipendente = servDipendente.getDipendenteConId(sceltaId);
 		bustaPaga.setDipendente(dipendente);
-		dipendente.addBustaPaga(bustaPaga);
+		this.dipendente.addBustaPaga(bustaPaga);
 			
 		servBustaPaga.creaBustaPaga(bustaPaga);
 		aggiornaBustePaga();
@@ -163,6 +203,6 @@ public class BustaPagaController implements Serializable {
 		setListaBustePaga(servBustaPaga.leggiTutteBustePaga());
 	}
 	
-
 	
+
 }

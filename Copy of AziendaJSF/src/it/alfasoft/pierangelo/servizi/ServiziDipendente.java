@@ -1,15 +1,22 @@
 package it.alfasoft.pierangelo.servizi;
 
+import java.io.Serializable;
 import java.util.List;
+
 
 
 
 import it.alfasoft.pierangelo.dao.DipendenteDao;
 import it.alfasoft.pierangelo.model.bean.Dipendente;
 
-public class ServiziDipendente {
+public class ServiziDipendente implements Serializable {
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 703655270911472155L;
+	
 	DipendenteDao dDao = new DipendenteDao();	
 	
 	

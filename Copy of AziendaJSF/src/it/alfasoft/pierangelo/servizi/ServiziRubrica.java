@@ -1,10 +1,17 @@
 package it.alfasoft.pierangelo.servizi;
 
+import java.io.Serializable;
+
+import javax.faces.bean.SessionScoped;
+
 import it.alfasoft.pierangelo.dao.RubricaDao;
 import it.alfasoft.pierangelo.model.rubrica.Rubrica;
 
+@SessionScoped
+public class ServiziRubrica implements Serializable {
+	
 
-public class ServiziRubrica {
+	private static final long serialVersionUID = 1L;
 	
 	
 	private RubricaDao rDao = new RubricaDao();

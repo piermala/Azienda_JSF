@@ -1,11 +1,12 @@
 package it.alfasoft.pierangelo.controller;
 
 import it.alfasoft.pierangelo.model.bean.Dipendente;
+import it.alfasoft.pierangelo.model.bean.Utente;
 import it.alfasoft.pierangelo.servizi.ServiziDipendente;
 import it.alfasoft.pierangelo.servizi.ServiziRubrica;
+import it.alfasoft.pierangelo.servizi.ServiziUtente;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.xml.ws.Response;
+
+import utility.CodificaPassword;
 
 
 @ManagedBean(name="controllerDipendente",eager=true)
@@ -25,6 +29,7 @@ public class DipendenteController implements Serializable {
 	private List<Dipendente> listaDipendenti;
 	private ServiziDipendente servDipendente;
 	private ServiziRubrica servRubrica;
+	private ServiziUtente servUtente;
 	
 	
 	//// GETTERS AND SETTERS
@@ -59,6 +64,14 @@ public class DipendenteController implements Serializable {
 
 	
 	
+	public ServiziUtente getServUtente() {
+		return servUtente;
+	}
+
+	public void setServUtente(ServiziUtente servUtente) {
+		this.servUtente = servUtente;
+	}
+
 	//// COSTRUTTORI
 	public DipendenteController(){
 		
@@ -71,6 +84,7 @@ public class DipendenteController implements Serializable {
 	
 	@PostConstruct
     public void init() {
+		servUtente = new ServiziUtente();
 		servDipendente = new ServiziDipendente();	
 		servRubrica = new ServiziRubrica();
 		listaDipendenti = servDipendente.getTuttiDipendenti();
@@ -79,18 +93,29 @@ public class DipendenteController implements Serializable {
 	
 	
 	
-	/// AGGIUNGI CLIENTE
+	/// AGGIUNGI DIPENDENTE
 	public String addDipendente(Dipendente dipendente){		
 			
+		// codifica password
+		dipendente.setPassword(CodificaPassword.codificaPsw(dipendente.getPassword()));
+				
 		servDipendente.createDipendente(dipendente.getNome(), dipendente.getCognome(), dipendente.getUsername(), dipendente.getPassword(), dipendente.getPosizione(), dipendente.getStipendio());	/// aggiungi nel database
 		servRubrica.aggiungiRubrica(dipendente.getUsername());
+		
+		
+		Utente u = servUtente.cercaConUsername(dipendente.getUsername());
+		
+		if (u == null){
+			servRubrica.aggiungiRubrica(dipendente.getUsername());
+		}		
+		
 		aggiornaDipendenti();
 		return "elencoDipendenti?faces-redirect=true";
 		
 	}	
 	
 
-	///  MODIFICA CLIENTE
+	///  MODIFICA DIPENDENTE
 	public String editDipendente(String username) {
 
 		Dipendente cliente = servDipendente.trovaDipendenteConUsername(username);
@@ -103,20 +128,20 @@ public class DipendenteController implements Serializable {
 	}
 	
 	
-	///  ELIMINA CLIENTE
+	///  ELIMINA DIPENDENTE
 	public String deleteDipendente(Dipendente dipendente) {
 
 		servDipendente.eliminaDipendente(dipendente);
 		aggiornaDipendenti();
 
-		return "HomepageAdmin?faces-redirect=true";
+		return "elencoDipendenti?faces-redirect=true";
 
 	}
 	
 	
 	
 	
-	/// AGGIORNA LISTA CLIENTI
+	/// AGGIORNA LISTA DIPENDENTI
 	public void aggiornaDipendenti(){
 		setListaDipendenti(servDipendente.getTuttiDipendenti());
 	}
@@ -129,6 +154,8 @@ public class DipendenteController implements Serializable {
 		return "HomepageAdmin?faces-redirect=true";
 		
 	}
+	
+	
 
 
 	

@@ -1,10 +1,17 @@
 package it.alfasoft.pierangelo.filter;
 
+
+import it.alfasoft.pierangelo.controller.VoceController;
 import it.alfasoft.pierangelo.model.bean.Utente;
+import it.alfasoft.pierangelo.model.rubrica.Rubrica;
+import it.alfasoft.pierangelo.servizi.ServiziRubrica;
 import it.alfasoft.pierangelo.servizi.ServiziUtente;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import utility.CodificaPassword;
 
 @ManagedBean(name="loginController",eager=true)
 @SessionScoped
@@ -14,6 +21,11 @@ public class LoginController {
 	private String password;
 	private boolean loggato;
 	private ServiziUtente servUtente;
+	private VoceController vC;
+	private char ruolo;
+	private Rubrica rubrica;
+	private ServiziRubrica servRubrica;
+	private long id;
 	
 	
 	public String getUsername() {
@@ -34,6 +46,46 @@ public class LoginController {
 	public void setLoggato(boolean loggato) {
 		this.loggato = loggato;
 	}
+	public ServiziUtente getServUtente() {
+		return servUtente;
+	}
+	public void setServUtente(ServiziUtente servUtente) {
+		this.servUtente = servUtente;
+	}
+	public char getRuolo() {
+		return ruolo;
+	}
+	public void setRuolo(char ruolo) {
+		this.ruolo = ruolo;
+	}	
+	public VoceController getvC() {
+		return vC;
+	}
+	public void setvC(VoceController vC) {
+		this.vC = vC;
+	}	
+	
+	public Rubrica getRubrica() {
+		return rubrica;
+	}
+	public void setRubrica(Rubrica rubrica) {
+		this.rubrica = rubrica;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public LoginController(){
+	}
+	
+	@PostConstruct
+	public void init(){
+		vC = new VoceController();
+		rubrica = new Rubrica();
+		servRubrica = new ServiziRubrica();
+	}
 	
 	
 	
@@ -47,21 +99,39 @@ public class LoginController {
 		
 		if (u != null){
 			
-			if (u.getPassword().equals(password)){
+			String passCodificata = CodificaPassword.codificaPsw(password);
+			
+			if (passCodificata.equals(u.getPassword())){
 				
-				char ruolo = u.getRuolo();
+				ruolo = u.getRuolo();				
+
+				vC.setUsername(username);
 				
 				switch(ruolo){
 				
 					case 'A':
 						this.loggato = true;
 						return "/Admin/HomepageAdmin.xhtml?faces-redirect=true";  
+						
 					case 'C':
 						this.loggato = true;
+						System.out.println("1- " + username);
+						this.id = servRubrica.leggiID(username);
+						//vC.setId(id);
+						System.out.println("2- " + id);
+						this.rubrica = servRubrica.cercaRubrica(this.id);
 						return "/Cliente/HomepageCliente.xhtml?faces-redirect=true";
+						
 					case 'D':
 						this.loggato = true;
-						return "/Dipendente/HomepageDipendente.xhtml?faces-redirect=true";				
+						System.out.println("1- " + username);
+						this.id = servRubrica.leggiID(username);
+						//vC.setId(id);
+						System.out.println("2- " + id);
+						this.rubrica = servRubrica.cercaRubrica(this.id);
+						//this.rubrica = servRubrica.cercaRubrica(id);
+						return "/Dipendente/HomepageDipendente.xhtml?faces-redirect=true";	
+						
 				}
 			}
 			
@@ -74,6 +144,15 @@ public class LoginController {
 	}
 	
 	
+	
+	/// DO LOGOUT
+	public String logout(){
+		this.username = "";
+		this.password = "";
+		this.loggato = false;
+		this.ruolo = ' ';
+		return "login?faces-redirect=true";
+	}
 	
 	
 	

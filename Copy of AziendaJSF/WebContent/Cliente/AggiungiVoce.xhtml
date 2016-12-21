@@ -4,13 +4,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
 
 <ui:composition template="../template/templateAggiungiVoceCliente.xhtml">
 
 	<ui:define name="aggiungiVoceCliente">
 		
-		<h2>Qua aggiungi una nuova voce alla tua rubrica</h2>
+		<h:panelGrid id="grid" columns="4" cellpadding="5">
+	            
+	            <h:outputLabel for="nome" value="Nome" style="font-weight:bold" styleClass="text"/>                    
+	            <p:inputText id="nome" value="#{voce.nome}" required="true" label="Nome" requiredMessage="Inserisci il nome!"/><br/>
+	            <p:message for="nome" />
+	 
+	            <h:outputLabel for="cognome" value="Cognome:" style="font-weight:bold" styleClass="text"/>                    
+	            <p:inputText id="cognome" value="#{voce.cognome}" label="Cognome" /><br/>
+	            <p:message for="cognome" />       
+	            
+	            <h:outputLabel for="telefono" value="Telefono:" style="font-weight:bold" styleClass="text"/>                    
+	            <p:inputText id="telefono" value="#{voce.telefono}" label="Telefono" required="true" requiredMessage="Inserisci un numero di telefono!"/><br/>
+	            <p:message for="telefono" />    
+	            
+	            <h:outputText value="#{controllerVoce.username}" rendered="true" ></h:outputText>
+	            
+	        </h:panelGrid>	 
+	 
+	        <p:commandButton value="Aggiungi voce" icon="ui-icon-check" validateClient="true" style="margin-right:10px" action="#{controllerVoce.addVoce(voce)}" styleClass="text"/>                   
+
 		
 	</ui:define>
 	

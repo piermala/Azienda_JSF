@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,11 +14,11 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 @ManagedBean(name="dipendente",eager=true)
+@SessionScoped
 @Entity
 public class Dipendente extends Utente {
 
 	private static final long serialVersionUID = 1L;
-	
 	
 	private String posizione;
 	private double stipendio;
@@ -62,6 +63,11 @@ public class Dipendente extends Utente {
 		super(nome, cognome, username, password, ruolo);
 		this.posizione = posizione;
 		this.stipendio = stipendio;
+	}
+	
+	@Override
+	public String toString() {
+		return nome + " " + cognome;
 	}
 	
 	

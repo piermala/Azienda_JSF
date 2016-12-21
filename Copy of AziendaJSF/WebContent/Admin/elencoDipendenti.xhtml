@@ -11,15 +11,11 @@
 	
 	<ui:define name="elencoDipendentiContenuto">
 	
-		<h2>Qui vedremo la lista dei dipendenti</h2>
-	
-	
-	
 	<h:form id="form">
 			<p:growl id="msgs" showDetail="true" />
 
 			<p:dataTable id="dipendenti" var="d" value="#{dipEditView.listaDipendenti}" editable="true" style="margin-bottom:20px">
-				<f:facet name="header">Elenco clienti</f:facet>
+				<f:facet name="header">Elenco dipendenti</f:facet>
 
 				<p:ajax event="rowEdit" listener="#{dipEditView.onRowEdit}"
 					update=":form:msgs" />
@@ -99,18 +95,7 @@
 					</h:commandLink>
 				</p:column>
 				
-				<!-- 
-				<p:column style="width:32px">
-					<p:commandLink action="#{DTC.deleteBusta(b)}
-						onclick="return confirm('Sei sicuro di voler cancellare?')"
-						id="iconOnly" update=":form">
-						<i class="ui-icon ui-icon-trash"></i>
-					</p:commandLink>
-				</p:column>
-				
-				
-				
-				 -->
+
 
 			</p:dataTable>
 

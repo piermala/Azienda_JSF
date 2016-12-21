@@ -12,9 +12,7 @@
 <ui:composition template="../template/templateAggiungiDipendente.xhtml">
 	
 	
-	<ui:define name="aggiungiDipendenteContenuto">
-		<h2>Qui aggiungeremo il nostro dipendente</h2>
-	
+	<ui:define name="aggiungiDipendenteContenuto">	
 	
 	<h:form> 
 	    <p:panel header="AGGIUNGI UN NUOVO DIPENDENTE" styleClass="text">
@@ -36,10 +34,7 @@
 	            <h:outputLabel for="stipendio" value="Stipendio:" style="font-weight:bold" styleClass="text"/>                    
 	            <p:inputText id="stipendio" value="#{dipendente.stipendio}" label="Stipendio" required="true" requiredMessage="Inserisci lo stipendio!" validatorMessage="Il valore deve essere compreso tra 800 e 7000">
 	     	   	<f:validateLongRange minimum="800" maximum="3500"/>
-	     	   	</p:inputText>
-	     	   	<h:message for="anno" class="requiredMessage"/>
-	            <br/>
-	          
+	     	   	</p:inputText><br/>
 	            <p:message for="stipendio" />       
 	            
 	            <h:outputLabel for="username" value="Username:" style="font-weight:bold" styleClass="text"/>                    

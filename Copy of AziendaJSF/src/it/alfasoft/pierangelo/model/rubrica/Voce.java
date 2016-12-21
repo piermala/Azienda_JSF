@@ -1,5 +1,6 @@
 package it.alfasoft.pierangelo.model.rubrica;
 
+import javax.faces.bean.ManagedBean;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
+@ManagedBean(name="voce", eager=true)
 public class Voce {
 
 	@Id
@@ -38,8 +40,7 @@ public class Voce {
 	}
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}		
-	
+	}
 	public Rubrica getRubrica() {
 		return rubrica;
 	}
@@ -54,7 +55,7 @@ public class Voce {
 	}
 	
 	
-	/// CONSTRUCTORS
+	/// COSTRUTTORI
 	public Voce(String nome, String cognome, String telefono, Rubrica r) {
 		super();
 		this.nome = nome;

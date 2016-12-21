@@ -11,14 +11,14 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name="clEditView")
-@SessionScoped
+@RequestScoped
 public class EditViewCliente implements Serializable {
 
 
@@ -84,6 +84,8 @@ public class EditViewCliente implements Serializable {
         FacesMessage msg = new FacesMessage("Modifica annullata", ((Cliente) event.getObject()).getUsername());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+    
+    
      
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
@@ -97,9 +99,19 @@ public class EditViewCliente implements Serializable {
     
     /// DELETE
     public String delete(Cliente cliente){
+    	
     	controller.deleteCliente(cliente);
     	controller.aggiornaClienti();
-    	return "elencoClienti";
+    	return "elencoClienti?faces-redirect=true";
+    	
+    }
+    
+    
+    /// ON ROW DELETE
+    public void onRowDelete(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Cliente eliminato", ((Cliente) event.getObject()).getUsername());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        delete((Cliente) event.getObject());
     }
     
     
@@ -107,12 +119,6 @@ public class EditViewCliente implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 }
